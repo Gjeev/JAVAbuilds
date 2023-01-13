@@ -12,7 +12,8 @@ const {
 
 const {
     makeEvent,
-    readEvents
+    readEvents,
+    getUsersEvent,
 }= require("../controllers/eventController")
 
 const eventController
@@ -24,6 +25,7 @@ router.get('/signUp',getSignUp);
 router.get('/logOut',protectUserRoute,getLogOut);
 router.post('/signUp',postSignUp);
 router.post('/booking',makeEvent);
-router.post('/events' ,readEvents)
+router.post('/events' ,readEvents);
+router.get('/usrEvt', getUsersEvent);
 
 module.exports=router;
