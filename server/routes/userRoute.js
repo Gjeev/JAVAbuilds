@@ -15,6 +15,7 @@ router.post('/logIn',postLogIn);
 router.get('/signUp',getSignUp);
 router.get('/logOut',protectUserRoute,getLogOut);
 router.post('/signUp',postSignUp);
-router.post('/booking', postBooking);
+router.post('/booking', makeEvent);
+router.post('/events' , readEvents)
 
 module.exports=router;
