@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Button, Form, FormGroup, FormLabel } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import axios from "axios";
 
 const SignUp = () => {
+  const baseURL = "http://localhost:3000/user";
   const [user, setUser] = useState({
     enrollnum: "",
-    email: "",
+    userEmail: "",
     password: "",
   });
   const [cPassword, setCPassword] = useState("");
@@ -19,11 +21,20 @@ const SignUp = () => {
     if (user.password !== cPassword)
       setError("the password and confirm password should be same");
     else {
-      console.log(user);
+        axios
+        .post(`${baseURL}/signUp`, user)
+        .then((res) => {
+          if (res.data.message === "User Signed Up") {
+            window.location.href = "/login";
+          } else {
+            setError(res.data.message);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
   return (
-    <Form className="Form" onSubmit={handleSubmit}>
+    <Form className="Form" onSubmit={handleSubmit} method="POST">
       <Form.Group className="formField">
         <Form.Label>Enter Enrollment Number</Form.Label>
         <Form.Control
@@ -38,7 +49,7 @@ const SignUp = () => {
         <Form.Control
           type="text"
           placeholder="Enter Email"
-          name="email"
+          name="userEmail"
           onChange={(e) => onInputChange(e)}
         />
       </Form.Group>
@@ -60,7 +71,7 @@ const SignUp = () => {
         />
         <Form.Text className="errorMessage">{error}</Form.Text>
       </Form.Group>
-      <Button type="submit" variant="primary" className="submitButton" >
+      <Button type="submit" variant="primary" className="submitButton">
         onto login page
       </Button>
     </Form>

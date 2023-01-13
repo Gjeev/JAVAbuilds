@@ -5,7 +5,7 @@ const userRoutes = require('./routes/userRoute');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 
