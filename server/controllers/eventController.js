@@ -1,10 +1,10 @@
 const event = require('../models/eventModel');
 const bcrypt = require('bcrypt');
 
-async function makeEvent (req, res) {
+function makeEvent (req, res) {
     try{
     let dataObj = req.body;
-    let event = await event.create(dataObj);
+    let event = event.create(dataObj);
     res.json({
         message : "Event Created",
         data: event
@@ -33,4 +33,8 @@ async function readEvents (req, res) {
             message : err.message
         });
     }
+}
+module.exports={
+    makeEvent,
+    readEvents
 }

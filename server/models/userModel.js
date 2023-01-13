@@ -17,19 +17,20 @@ const userSchema = new mongoose.Schema({
             return emailValidator.validate(this.userEmail);
         }
     },
+    //TODO: implement hash in future
     password : {
         type : String,
         required : true,
         minLength : 8
     },
-    confirmPassword : {
-        type : String,
-        required : true,
-        minLength : 8,
-        validate : function(){
-            return this.confirmPassword == this.password;
-        }
-    },
+    // confirmPassword : {
+    //     type : String,
+    //     required : true,
+    //     minLength : 8,
+    //     validate : function(){
+    //         return this.confirmPassword == this.password;
+    //     }
+    // },
 });
 
 userSchema.pre('save', async function(){
