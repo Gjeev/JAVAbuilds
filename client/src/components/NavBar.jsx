@@ -23,4 +23,4 @@ export default function NavBar() {
         </Navbar>
     );
 }
-// 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+
