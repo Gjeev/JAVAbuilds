@@ -19,7 +19,15 @@ async function makeEvent (req, res) {
 
 async function readEvents (req, res) {
     try {
-        event.findAll().then((events) => res.status(200).send(events));
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`;
+        
+        const query = {"date" : currentDate}
+        // event.findAll().then((events) => res.status(200).send(events));
+        event.find(query).then((events) => res.status.send(events))
     }
     catch (err){
         return res.json({
