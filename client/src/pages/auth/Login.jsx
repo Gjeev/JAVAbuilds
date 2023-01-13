@@ -3,34 +3,31 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Login = () => {
-    
-    const [userName,setUserName]=useState("");
-    const [password,setPassword]=useState("")
-    const handleChangeUserName=(event)=>{
-        setUserName(event.target.value);
+    const [user, setUser] = useState({
+        enrollnum : "",
+        password : "",
+    });
+    const onInputChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value });
     }
-    const handleChangePassword=(event)=>{
-        setPassword(event.target.value);
-    }
-    const handleSubmit = (event) => {
+    const handleFormSubmit = (event) => {
         event.preventDefault();
-        console.log(userName);
-        console.log(password);
+        console.log(user.enrollnum, user.password);
     };
     return ( 
-    <Form className='Form' onSubmit={handleSubmit}>
+    <Form className='Form' onSubmit={handleFormSubmit}>
       <Form.Group className="formField" controlId="formBasicEmail">
-        <Form.Label>Username</Form.Label>
-        <Form.Control type="text" placeholder="Enter Username" value={userName} onChange={handleChangeUserName}/>
+        <Form.Label>Enrollment Number</Form.Label>
+        <Form.Control type="text" placeholder="Enter Enrollment Number" name="enrollnum" onChange={(e) => onInputChange(e)}/>
       </Form.Group>
       <Form.Group className="formField" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" value={password} onChange={handleChangePassword}/>
+        <Form.Control type="password" placeholder="Password" name="password" onChange={(e) => onInputChange(e)}/>
       </Form.Group>
-      <Button variant="primary" type="submit" className='submitButton'>
-        Submit
+      <Button variant="primary" type="submit" className='submitButton' href="/">
+        Proceed to login
       </Button>
-      <a href=""className='signUp'>Not a user? sign up</a>
+      <a href="/signUp" className='signUp'>Not a user? sign up</a>
     </Form>
      );
 }
