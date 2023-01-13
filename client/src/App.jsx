@@ -10,7 +10,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route
+        <Route exact
           path="/"
           element={
             <>

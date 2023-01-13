@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoute');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cors = require("cors");
 
 const app = express();
 
@@ -13,6 +14,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
+app.use(cors());
 app.use(
     session({
         // loggedIn bool
