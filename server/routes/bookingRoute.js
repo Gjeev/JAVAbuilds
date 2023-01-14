@@ -4,7 +4,8 @@ const router = express.Router();
 const {
     makeEvent,
     readEvents,
-    getUsersEvent
+    getUsersEvent,
+    createCheckoutSession
 }= require("../controllers/eventController")
 router.post('/',makeEvent);
 router.post('/',readEvents);
