@@ -5,13 +5,14 @@
 
 // //async function createSession
 
-const event = require('../models/eventModel');
-const bcrypt = require('bcrypt');
+import bookings from "../models/bookingModel.js";
 
-async function makeEvent (req, res) {
+// const bcrypt = require('bcrypt');
+
+export const postBooking = () => async function makeEvent (req, res) {
     try{
     let dataObj = req.body;
-    let events = await event.create(dataObj);
+    let events = await bookings.create(dataObj);
     res.json({
         message : "Event Created",
         data: events
@@ -24,7 +25,7 @@ async function makeEvent (req, res) {
     }
 }
 
-async function readEvents (req, res) {
+export const getBooking = () => async function readEvents (req, res) {
     try {
         // send date from frontend in body
         let checkDate;
@@ -40,7 +41,7 @@ async function readEvents (req, res) {
             checkDate=req.body.date;
         }
         const query = {"date" : checkDate}
-        await event.find(query).then((events) => res.send({
+        await bookings.find(query).then((events) => res.send({
             data : events
         }))
     }
@@ -50,9 +51,25 @@ async function readEvents (req, res) {
         });
     }
 }
-module.exports={
-    makeEvent,
-    readEvents
+async function getUsersEvent (req, res) {
+    try{
+        const query = { "enrollnum" : req.body.enrollnum}
+        await event.find(query).then((events) => res.json({ 
+            message : events
+        })).catch((err) => {
+            return res.json({
+                message : err.message
+            })
+        })
+    }
+    catch (err) {
+        return res.json({
+            message : err.message
+        });
+    }
 }
+
+
+
 
 

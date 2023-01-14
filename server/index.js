@@ -8,7 +8,7 @@ const session = require('express-session');
 const cors = require("cors");
 
 const app = express();
-
+dotenv.config();
 const PORT = 3000;
 
 app.use(express.json());
@@ -30,8 +30,14 @@ app.use(
 )
 
 app.use('/user',userRoutes);
+app.use('/bookings',bookingRoutes);
 
-mongoose.connect(process.env.DB_LINK).then(() => console.log("MongoDB connected successfully"))
+
+mongoose.connect(process.env.DB_LINK,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => app.listen(PORT, () => console.log("MongoDB connected successfully on 3000"))
+)
 	.catch((err) => console.log(`MongoDB connection failed: ${err}`));
     
-app.listen(PORT);
+
