@@ -14,8 +14,6 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use('/user',userRoutes);
 app.use('/booking',bookingRoutes);
-
-
 mongoose.connect(process.env.DB_LINK,{
     useNewUrlParser: true,
     useUnifiedTopology: true,

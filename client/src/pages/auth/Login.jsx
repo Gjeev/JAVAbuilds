@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
+import { Redirect } from 'react-router-dom';
 
 const baseURL="http://localhost:3000/user";
 const Login = () => {
@@ -22,12 +23,15 @@ const Login = () => {
             console.log(err)
         })
         .then((res)=>{
-            console.log(res)
-            if(res.data.message==="User logged In"){
+            if(res.data.genToken){
                 console.log("verified")
+                localStorage.setItem('token',res.data.genToken)
+                console.log(localStorage.getItem('token'));
+                window.location.href= "/"
             }
             else{
                 setErrorMessage(res.data.message)
+                windows.alert("Cannot Validate!!")
             }
         })
     };

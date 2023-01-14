@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+// <<<<<<< HEAD
+// import axios from "axios";
+
+// const SignUp = () => {
+//   const baseURL = "http://localhost:3000/user";
+
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signup } from "../../actions/user";
@@ -10,6 +16,7 @@ const SignUp = () => {
   const [passwordsNotMatching, setPasswordsNotMatching] = useState(false);
   const [usernameAlreadyExists, setUsernameAlreadyExists] = useState(false);
   // const baseURL = "http://localhost:3000/user";
+// >>>>>>> 27f5e2d41048da6f8f6d1aff21420a5dde1d57b2
   const [user, setUser] = useState({
     enrollnum: "",
     userEmail: "",
@@ -29,6 +36,21 @@ const SignUp = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+// <<<<<<< HEAD
+//     if (user.password !== cPassword)
+//       setError("the password and confirm password should be same");
+//     else {
+//         axios
+//         .post(`${baseURL}/signUp`, user)
+//         .then((res) => {
+//           if (res.data.message === "User Signed Up") {
+//             window.location.href = "/login";
+//           } else {
+//             setError(res.data.message);
+//           }
+//         })
+//         .catch((err) => console.log(err));
+// =======
     console.log(user);
     setPasswordsNotMatching(false);
     setUsernameAlreadyExists(false);
@@ -37,6 +59,7 @@ const SignUp = () => {
     } else {
       dispatch(signup(user, history));
       dispatch(signup(user, history, handleUsernameAlreadyExists));
+//>>>>>>> 27f5e2d41048da6f8f6d1aff21420a5dde1d57b2
     }
   };
   return (

@@ -4,6 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 // storeItems
 async function makeEvent (dataObj) {
     let ifCreated=false;
+
     try{
     let events = await bookings.create(dataObj);
     console.log('Event Created');
@@ -47,6 +48,7 @@ async function getUsersEvent (req, res) {
         const user = await token.findOne({token:token});
         const enrollnum=user.enrollnum;
         const query = { "enrollnum" : enrollnum}
+
         await bookings.find(query).then((events) => res.json({ 
             message : events
         })).catch((err) => {

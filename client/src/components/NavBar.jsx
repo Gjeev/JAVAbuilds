@@ -8,13 +8,13 @@ import { useDispatch } from "react-redux";
 export default function NavBar() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [token, setToken] = useState((localStorage.getItem("token")));
   const location = useLocation();
   //   const [loggedIn, setLoggedIn] = useState(null);
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")));
+    setToken((localStorage.getItem("token")));
   }, [location]);
-  console.log(user);
+  console.log(token);
 
   return (
     <Navbar bg="dark" expand="sm" variant="dark" collapseOnSelect>
@@ -24,7 +24,7 @@ export default function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
             <Nav.Link href="/">Home</Nav.Link>
-            {user ? (
+            {token ? (
                 <><Nav.Link href="/bookings">Bookings</Nav.Link></>
             ) : (<><Nav.Link href="/signUp">Sign Up</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link></>)}
