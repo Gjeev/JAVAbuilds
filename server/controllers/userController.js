@@ -1,45 +1,13 @@
-// const users = require('../models/userModel');
-//import users from "../models/userModel.js";
 const users = require("../models/userModel");
-//import token from "../models/token.js";
 const token = require("../models/token");
 const bcrypt = require("bcrypt");
-// import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
 const jwt = require("jsonwebtoken");
 const {
   INVALID_CREDENTIALS,
   USERNAME_DNE,
   USER_ALREADY_EXISTS,
 } = require("../constants/index");
-// const { INVALID_CREDENTIALS, USERNAME_DNE, USER_ALREADY_EXISTS } = require('../constants/index.js')
-// async function getSignUp (req,res) {
-//     try{
-//     // send the frontend signup
-//     await res.json({
-//         message : "Sign Up!"
-//     });
-//     }
-//     catch(err){
-//         res.json({
-//             message : err.message
-//         });
-//     }
-// }
 
-// async function getLogIn (req,res) {
-//     try{
-//     // send the frontend login
-//     await res.json({
-//         message : "Log In!"
-//     });
-//     }
-//     catch(err){
-//         res.json({
-//             message : err.message
-//         });
-//     }
-// }
 async function addToken(usertoken, enrollnum) {
   try {
     let dataObj = { token: usertoken, enrollnum: enrollnum };
@@ -52,24 +20,6 @@ async function addToken(usertoken, enrollnum) {
   }
 }
 
-async function checkToken(token, enrollnum) {
-  try {
-    // const query = { token: req.body.token, enrollnum: req.body.enrollnum };
-    const query = { token: token, enrollnum: enrollnum };
-    await token
-      .find(query)
-      .then((token) => {
-        if (token != null) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch((err) => err.message);
-  } catch (err) {
-    return err.message;
-  }
-}
 
 const signup = async (req, res) => {
   const { enrollnum, password, userEmail } = req.body;
@@ -93,7 +43,6 @@ const signup = async (req, res) => {
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: error.message });
-    // console.log(error);
   }
 };
 
@@ -101,16 +50,6 @@ const login = async (req, res) => {
   try {
     const { enrollnum, password, usertoken } = req.body;
     try {
-      
-      // checkToken(usertoken, enrollnum).then((msg) => {
-        
-      //   if (msg === true) {
-      //  console.log(
-      //     "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
-      //   );
-      //     res.json({ result: existingUser });
-      //   }
-      // }).catch((err) => res.json({message:err.message,}));
       if(usertoken != null){
         const query = { token: usertoken };
         token.find(query).then((tk) => {
@@ -146,7 +85,6 @@ const login = async (req, res) => {
       message: err.message,
     });
   }
-  // res.json({msg: "login user"});
 };
 
 
@@ -166,36 +104,6 @@ const logout = async (req, res) => {
   }
 };
 
-
-// async function getLogOut (req,res) {
-//     try{
-//     console.log(req.session);
-//     req.session.destroy();
-//     //console.log(req.session);
-//     await res.json({
-//         message : "Logged Out!"
-//     });
-//     //render login page
-//     }
-//     catch(err){
-//         res.json({
-//             message : err.message
-//         });
-//     }
-// }
-
-// function protectUserRoute(req,res,next){
-//     // client logged in or not
-//         let flag = req.session;
-//         if(flag){
-//             next();
-//         }
-//         else{
-//             return res.json({
-//                 message : "Operation accessible to only Clients"
-//             })
-//         }
-//     }
 
 module.exports = {
   addToken,
