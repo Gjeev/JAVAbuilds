@@ -31,7 +31,7 @@ async function makeEvent (req,res) {
             message:err.message
         })
     }
-    return ifCreated;
+   // return ifCreated;
 }
 
 async function readEvents (req, res) {
