@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Row, Col, Container } from "react-bootstrap";
 import Game from "../../components/Game";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BaseURL="http://localhost:3000/booking"
 const Booking = () => {
@@ -309,7 +310,13 @@ const Booking = () => {
 
   function handleSubmitButtonClick()
   {
-    console.log(timeSlot, table, event , selectedDay);
+    const user = useSelector((state) => state.user);
+
+    // console.log(timeSlot, table, event , selectedDay);
+    // axios.post("http://localhost:3000/user/smthsmth", {
+
+    // })
+
   }
   return (
     <div className="d-flex flex-column justify-content-center align-content-center">
