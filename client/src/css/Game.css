@@ -1,0 +1,6 @@
+.selected {
+    box-shadow:
+  0  0 10px rgb(34, 236, 20),
+  0 0 10px rgb(49, 167, 67);
+  
+}

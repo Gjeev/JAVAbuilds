@@ -31,7 +31,7 @@ export const signup= (user,history,onUsernameAlreadyExists)=>async(dispatch)=>{
         history.push('/');
         
     } catch (error) {
-        console.log(error.response.data);
+        console.log(error);
         const errorMessage=error.response.data.message;
         switch (errorMessage) {
             case USER_ALREADY_EXISTS:

@@ -14,7 +14,7 @@ export default function NavBar() {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
-  console.log(user);
+  console.log(user.token);
 
   return (
     <Navbar bg="dark" expand="sm" variant="dark" collapseOnSelect>

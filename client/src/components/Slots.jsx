@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import BookingSlot from "./BookingSlot";
 
 const Slots = (props) => {
+    const event = props.event;
+    const date = props.date;
     const [data,setData]=useState(null);
     const [slots1,setSlots1]= useState(
         [
@@ -54,7 +56,7 @@ const Slots = (props) => {
             <div>
                 {data&&slots1.map((slot)=>{
                     return(
-                        <BookingSlot key={slot.id} props={slot}/>
+                        <BookingSlot key={slot.id} props={slot} event={event} date={date}/>
                     )
                 })}
                 
