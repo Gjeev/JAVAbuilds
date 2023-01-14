@@ -247,20 +247,6 @@ const Booking = () => {
 
   
   // this updates slots available whenever state from backend changes
-  useEffect(() => {
-    if (data) {
-      slots.map((slot) => {
-        data.map((flag) => {
-          if (slot.timeSlot === flag.time && flag.table === "1") {
-            slot.table1Status = "invisible";
-          }
-          if (slot.timeSlot === flag.time && flag.table === "2") {
-            slot.table2Status = "invisible";
-          }
-        });
-      });
-    }
-  }, [data]);
   const updateSlots = () => {
     if(data)
     {
@@ -273,14 +259,6 @@ const Booking = () => {
           if (slot.timeSlot === flag.time && flag.table === "2") {
             tempSlot.table2Status = "invisible";
           }
-          // if (slot.timeSlot === flag.time && flag.table === "1") {
-          //   return {...slot, table1Status: "invisible"};
-          // }
-          // if (slot.timeSlot === flag.time && flag.table === "2") {
-          //   return {...slot, table2Status: "invisible"};
-          // }
-          // return slot;
-          
         });
         return tempSlot;
       });
@@ -289,9 +267,6 @@ const Booking = () => {
   
     
   };
-  useEffect(() => {
-    console.log(slots);
-  },[slots]);
 
   //time slot jo user choose karega uska state or table ka state & function
   const [timeSlot, setTimeSlot] = useState("");
@@ -309,7 +284,7 @@ const Booking = () => {
 
   function handleSubmitButtonClick()
   {
-    console.log(timeSlot, table, event , selectedDay);
+    console.log(timeSlot, table, event , selectedDay.toLocaleDateString("en-us"));
   }
   return (
     <div className="d-flex flex-column justify-content-center align-content-center">
