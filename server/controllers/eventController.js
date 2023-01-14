@@ -50,9 +50,29 @@ async function readEvents (req, res) {
         });
     }
 }
+async function getUsersEvent (req, res) {
+    try{
+        const query = { "enrollnum" : req.body.enrollnum}
+        await event.find(query).then((events) => res.json({ 
+            message : events
+        })).catch((err) => {
+            return res.json({
+                message : err.message
+            })
+        })
+    }
+    catch (err) {
+        return res.json({
+            message : err.message
+        });
+    }
+}
+
+
 module.exports={
     makeEvent,
-    readEvents
+    readEvents,
+    getUsersEvent
 }
 
 
