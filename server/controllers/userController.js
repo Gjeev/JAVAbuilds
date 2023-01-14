@@ -52,16 +52,19 @@ async function postSignUp (req,res) {
 
 async function postLogIn (req,res) {
 try {
+    console.log(req.body)
     let enrollnum = req.body.enrollnum;
     let password = req.body.password;
+    console.log(enrollnum)
     let user = await users.findOne({enrollnum : enrollnum});
+    console.log(user)
     if(user){
+        console.log(user);
         let hashedPassword=user.password;
-        let flag=bcrypt.compare(password,hashedPassword);
+        let flag=await bcrypt.compare(password,hashedPassword);
         if(flag){
         session = req.session;
         session.enrollnum=req.body.enrollnum;
-        console.log(session.enrollnum)
         return res.json({
             message : "User logged In"
         });

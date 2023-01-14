@@ -60,7 +60,7 @@ const SignUp = () => {
         />
         <Form.Text className="errorMessage">{error}</Form.Text>
       </Form.Group>
-      <Button type="submit" variant="primary" className="submitButton" href="/login">
+      <Button type="submit" variant="primary" className="submitButton" >
         onto login page
       </Button>
     </Form>

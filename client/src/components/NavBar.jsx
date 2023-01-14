@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 export default function NavBar() {
-    const [loggedIn,setLoggedIn]= useState(null)
+    // const [loggedIn,setLoggedIn]= useState(null)
     return (
         <Navbar bg="dark" expand="sm" variant="dark" collapseOnSelect>
         <Container>
