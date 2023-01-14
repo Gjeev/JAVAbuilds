@@ -1,14 +1,7 @@
-// require('dotenv').config();
-// const stripe = require('stripe')(process.env.STRIPE_API_KEY);
-// const eventModel=require("../models/eventModel");
-// const userModel=require("../models/userModel");
-
-// //async function createSession
-
 import { bookings } from "../models/bookingModel.js";
-
-// const bcrypt = require('bcrypt');
-
+require('dotenv').config()
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+// storeItems
 async function makeEvent (req, res) {
     try{
     let dataObj = req.body;
@@ -54,7 +47,7 @@ async function readEvents (req, res) {
 async function getUsersEvent (req, res) {
     try{
         const query = { "enrollnum" : req.body.enrollnum}
-        await event.find(query).then((events) => res.json({ 
+        await bookings.find(query).then((events) => res.json({ 
             message : events
         })).catch((err) => {
             return res.json({
@@ -68,12 +61,37 @@ async function getUsersEvent (req, res) {
         });
     }
 }
-
+// write code for PAY BUTTON = BOOK NOW?? in frontend
+// onclick -> handleCheckout -> post request -> sync routes with backend
+// -> send user ID(token) in post request, if you are storing user in state
+// make checkoutSuccess page in frontend
+// component bnao and app.js me route path bnao
+// token access from req body, then find enrollnum from token db
+// client url??
+const YOUR_DOMAIN='http://localhost:3000'; // change the port -> client
+const PRICE_ID=10;
+async function createCheckoutSession(req, res){
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: '{{PRICE_ID}}',
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      // define success and cancel urls
+      success_url: `${YOUR_DOMAIN}/booking/checkout-session`,
+      cancel_url: `${YOUR_DOMAIN}/booking`,
+    });
+  
+    res.send({url:session.url});
+  }
 
 module.exports={
     makeEvent,
     readEvents,
-    getUsersEvent
+    getUsersEvent,
+    createCheckoutSession
 }
 
 

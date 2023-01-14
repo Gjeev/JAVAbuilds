@@ -1,10 +1,7 @@
-// const users = require('../models/userModel');
 import users from '../models/userModel.js';
-// const bcrypt = require('bcrypt');
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import { INVALID_CREDENTIALS, USERNAME_DNE, USER_ALREADY_EXISTS } from '../constants/index.js';
-// const { INVALID_CREDENTIALS, USERNAME_DNE, USER_ALREADY_EXISTS } = require('../constants/index.js')
 // async function getSignUp (req,res) {
 //     try{
 //     // send the frontend signup 

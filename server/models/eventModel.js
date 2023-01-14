@@ -1,9 +1,5 @@
-// user id , game, time , date , table (for pool) , otp
-// also implement multiple booking 
-//import mongoose
 import { Schema , model } from 'mongoose';
 
-//create an instance of the schema object
 const bookingSchema = new Schema({
     enrollnum: 
     {
@@ -26,11 +22,11 @@ const bookingSchema = new Schema({
         type: String,
         required: true
     },
-    // bookInfo:{
-    //     type: String,
-    //     required : true,
-    //     unique:true
-    // },
+    bookInfo:{
+        type: String,
+        required : true,
+        unique:true
+    },
     // date + time + game + table 
     code: {
         type: Number,
