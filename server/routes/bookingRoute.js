@@ -9,7 +9,7 @@ const {
 }= require("../controllers/eventController")
 router.post('/',makeEvent);
 router.post('/',readEvents);
-router.post('/',getUsersEvent);
+router.post('/getUserEvent',getUsersEvent);
 router.post('/create-checkout-session',createCheckoutSession);
 require('dotenv').config();
 const endpointSecret = process.env.ENDPOINTSECRET;
