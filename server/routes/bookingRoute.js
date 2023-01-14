@@ -15,7 +15,7 @@ const router = Router();
 //     makeEvent,
 //     readEvents
 // }= require("../controllers/eventController")
-import {makeEvent, readEvents } from '../controllers/eventController.js';
+import {getBooking, postBooking} from '../controllers/eventController.js';
 // const eventController
 //  = require('../controllers/eventController')
 
@@ -24,7 +24,7 @@ import {makeEvent, readEvents } from '../controllers/eventController.js';
 // router.get('/signUp',getSignUp);
 // router.get('/logOut',protectUserRoute,getLogOut);
 // router.post('/signUp',signup);
-router.post('/',makeEvent);
+router.post('/',postBooking);
 // router.get('/events' ,readEvents)
 
 export default router;

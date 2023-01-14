@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import userRoutes from './routes/userRoute.js';
-import bookingRoutes from './routes/userBooking.js';
+import bookingRoutes from './routes/bookingRoute.js';
 
 // import { urlencoded } from 'body-parser';
 // import cookieParser from 'cookie-parser';
@@ -40,7 +40,7 @@ app.use(cors());
 // )
 
 app.use('/user',userRoutes);
-app.use('/booking',bookingRoutes);
+app.use('/bookings',bookingRoutes);
 
 
 mongoose.connect(process.env.DB_LINK,{
