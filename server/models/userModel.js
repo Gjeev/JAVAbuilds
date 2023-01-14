@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
     enrollnum : {
-        type : Number,
+        type : String,
         required : true,
         unique:true,
         maxLength:8
@@ -21,19 +21,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
         minLength : 8
-    },
-    confirmPassword : {
-        type : String,
-        required : true,
-        minLength : 8,
-        validate : function(){
-            return this.confirmPassword == this.password;
-        }
-    },
+    }
 });
 
 userSchema.pre('save', async function(){
-    this.confirmPassword = undefined;
+    // this.confirmPassword = undefined;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(this.password,salt);
     this.password=hashedPassword;
