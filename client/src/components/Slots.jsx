@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BookingSlot from "./BookingSlot";
+// import BookingSlot from "./BookingSlot";
 
 const Slots = (props) => {
     console.log(props)
