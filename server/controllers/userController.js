@@ -57,7 +57,6 @@ try {
     let password = req.body.password;
     console.log(enrollnum)
     let user = await users.findOne({enrollnum : enrollnum});
-    console.log(user)
     if(user){
         console.log(user);
         let hashedPassword=user.password;
