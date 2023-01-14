@@ -1,21 +1,12 @@
-import { Router } from 'express';
-const router = Router();
+const express = require('express');
+const router = express.Router();
 
-// const {
-//     getSignUp,
-//     getLogIn,
-//     postLogIn,
-//     postSignUp,
-//     getLogOut,
-//     protectUserRoute
-// } = require('../controllers/userController');
-// import {logIn,signIn} from '../controllers/userController';
-// import { login, signup } from '../controllers/userController.js';
-// const {
-//     makeEvent,
-//     readEvents
-// }= require("../controllers/eventController")
-import {getBooking, postBooking} from '../controllers/eventController.js';
+
+const {
+    makeEvent,
+    readEvents
+}= require("../controllers/eventController")
+// const {makeEvent}=require("../controllers/eventController")
 // const eventController
 //  = require('../controllers/eventController')
 
@@ -24,7 +15,7 @@ import {getBooking, postBooking} from '../controllers/eventController.js';
 // router.get('/signUp',getSignUp);
 // router.get('/logOut',protectUserRoute,getLogOut);
 // router.post('/signUp',signup);
-router.post('/',postBooking);
+router.post('/',makeEvent);
 // router.get('/events' ,readEvents)
 
-export default router;
+module.exports=router;

@@ -1,5 +1,5 @@
-import { Router } from 'express';
-const router = Router();
+const express = require('express');
+const router = express.Router();
 
 // const {
 //     getSignUp,
@@ -10,7 +10,10 @@ const router = Router();
 //     protectUserRoute
 // } = require('../controllers/userController');
 // import {logIn,signIn} from '../controllers/userController';
-import { login, signup } from '../controllers/userController.js';
+// import { login, signup } from '../controllers/userController.js';
+const {
+    login,signup,logout
+}=require('../controllers/userController')
 // const {
 //     makeEvent,
 //     readEvents
@@ -25,6 +28,7 @@ router.post('/login',login);
 // router.get('/logOut',protectUserRoute,getLogOut);
 router.post('/signUp',signup);
 // router.post('/booking',makeEvent);
-// router.post('/events' ,readEvents)
+// router.post('/events' ,readEvents);
+router.delete('/logout',logout)
 
-export default router;
+module.exports = router;

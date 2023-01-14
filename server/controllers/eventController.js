@@ -5,11 +5,11 @@
 
 // //async function createSession
 
-import bookings from "../models/bookingModel.js";
+const bookings = require("../models/eventModel")
 
 // const bcrypt = require('bcrypt');
 
-export const postBooking = () => async function makeEvent (req, res) {
+async function makeEvent (req, res) {
     try{
     let dataObj = req.body;
     let events = await bookings.create(dataObj);
@@ -25,7 +25,7 @@ export const postBooking = () => async function makeEvent (req, res) {
     }
 }
 
-export const getBooking = () => async function readEvents (req, res) {
+async function readEvents (req, res) {
     try {
         // send date from frontend in body
         let checkDate;
@@ -54,7 +54,7 @@ export const getBooking = () => async function readEvents (req, res) {
 async function getUsersEvent (req, res) {
     try{
         const query = { "enrollnum" : req.body.enrollnum}
-        await event.find(query).then((events) => res.json({ 
+        await bookings.find(query).then((events) => res.json({ 
             message : events
         })).catch((err) => {
             return res.json({
@@ -70,6 +70,10 @@ async function getUsersEvent (req, res) {
 }
 
 
-
+module.exports={
+    makeEvent,
+    readEvents,
+    getUsersEvent
+}
 
 

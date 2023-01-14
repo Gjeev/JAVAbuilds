@@ -1,9 +1,11 @@
-import { Schema, model } from 'mongoose';
-import { validate as _validate } from 'email-validator';
+const mongoose = require('mongoose');
+const emailValidator = require('email-validator');
+const Schema = mongoose.Schema;
 // const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     enrollnum : {
+        type : String,
         type : String,
         required : true,
         unique:true,
@@ -18,9 +20,9 @@ const userSchema = new Schema({
         type : String,
         required : true,
         unique: true,
-        validate: function() {
-            return emailValidator.validate(this.userEmail);
-        }
+        // validate: function() {
+        //     return _validate(this.userEmail);
+        // }
     }
 });
 
@@ -31,5 +33,5 @@ const userSchema = new Schema({
 //     this.password=hashedPassword;
 // });
 
-const users = model('users',userSchema);
-export default users;
+const users = mongoose.model('users',userSchema);
+module.exports= users;

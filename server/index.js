@@ -2,37 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const userRoutes = require('./routes/userRoute');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const cors = require("cors");
-
-const app = express();
-dotenv.config();
+const bookingRoutes = require('./routes/bookingRoute');
 const PORT = 3000;
-
+const app=express();
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(cookieParser());
-app.use(cors());
-app.use(
-    session({
-        // loggedIn bool
-        key:'user_sid',
-        secret: process.env.SECRET,
-        resave:false,
-        saveUninitialized:false,
-        cookie:{
-        // check maxAge
-            expires:100000
-        }
-    })
-)
-
 app.use('/user',userRoutes);
-app.use('/bookings',bookingRoutes);
-
-
+app.use('/booking',bookingRoutes);
 mongoose.connect(process.env.DB_LINK,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
