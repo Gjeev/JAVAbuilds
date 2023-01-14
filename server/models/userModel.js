@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const emailValidator = require('email-validator');
-const Schema = mongoose.Schema;
-// const bcrypt = require('bcrypt');
 
+//const emailValidator = require('email-validator');
+const Schema = mongoose.Schema;
 const userSchema = new Schema({
     enrollnum : {
         type : String,
@@ -25,13 +24,6 @@ const userSchema = new Schema({
         // }
     }
 });
-
-// userSchema.pre('save', async function(){
-//     // this.confirmPassword = undefined;
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(this.password,salt);
-//     this.password=hashedPassword;
-// });
 
 const users = mongoose.model('users',userSchema);
 module.exports= users;

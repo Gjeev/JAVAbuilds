@@ -18,5 +18,4 @@ const BookingSlot = (props) => {
         </div>
     );
 }
- 
 export default BookingSlot;
