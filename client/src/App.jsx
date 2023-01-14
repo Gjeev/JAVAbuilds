@@ -6,6 +6,8 @@ import NavBar from "./components/NavBar";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Booking from "./pages/booking/Booking";
+import CheckOutOK from "./components/CheckOutOK";
+import Error from "./components/Error";
 
 export default function App() {
   return (
@@ -29,7 +31,16 @@ export default function App() {
         <Route exact path="/bookings">
         <Booking></Booking>
       </Route>
+
+      <Route exact path="/user/checkout-session">
+        <CheckOutOK></CheckOutOK>
+      </Route>
+
+      <Route path="*">
+        <Error></Error>
+      </Route>
       </Switch>
+      
 
       
     </Router>

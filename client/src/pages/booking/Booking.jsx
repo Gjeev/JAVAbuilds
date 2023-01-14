@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Row, Col, Container } from "react-bootstrap";
 import Game from "../../components/Game";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const BaseURL="http://localhost:3000/booking"
 const Booking = () => {
@@ -284,6 +285,15 @@ const Booking = () => {
 
   function handleSubmitButtonClick()
   {
+
+    const user = useSelector((state) => state.user);
+
+    // console.log(timeSlot, table, event , selectedDay);
+    // axios.post("http://localhost:3000/user/smthsmth", {
+
+    // })
+
+
     var rand =Math.floor((Math.random() * 10000) + 100000)
     console.log(timeSlot, table, event , selectedDay.toLocaleDateString("en-us"),enrollnum,rand);
     axios.post(`${BaseURL}/create`,{
@@ -301,6 +311,7 @@ const Booking = () => {
     .then((res)=>{
       console.log(res)
     })
+
   }
   return (
     <div className="d-flex flex-column justify-content-center align-content-center">
