@@ -2,45 +2,77 @@ import { useEffect, useState } from "react";
 import { DayPicker, useInput } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
-import Slots from "../../components/Slots";
 import { Row, Col, Container } from "react-bootstrap";
 import Game from "../../components/Game";
+import axios from "axios";
 
+const BaseURL="http://localhost:3000/booking"
 const Booking = () => {
   // state for date
-  const [selectedDay, setSelectedDay] = useState();
+  const [selectedDay, setSelectedDay] = useState("");
+  // let selectedDate = moment(yourDate).toDate();
   const { inputProps, dayPickerProps } = useInput({
     defaultSelected: new Date(),
     fromYear: 2023,
     toYear: 2026,
-    format: "PP",
+    format: "dd-MM-y",
     required: true,
   });
   const footer = selectedDay ? (
-    <p>You selected {format(selectedDay, "PPP")}.</p>
+    <p>You selected {format(selectedDay, "y-MM-dd")}.</p>
   ) : (
     <p>Please pick a day.</p>
   );
-
+    // let date = format(selectedDay, "y-MM-dd");
+    // console.log(date);
   // game array for display game options
   const games = [
-    { id: 1, title: "Pool", src: "images/pool.jpg" },
+    { id: 1, title: "pool", src: "images/pool.jpg" },
     { id: 2, title: "Play Station", src: "images/ps.jpg" },
     { id: 3, title: "Snooker", src: "images/snooker.jpg" },
   ];
   // state for game and its handler function
   const [event, setEvent] = useState();
+  const [token,setToken]=useState(localStorage.getItem('token'));
+  console.log(token);
   const handleGameSubmit = (title) => {
     setEvent(title);
   };
-
+  const[postObject,setPostObject]=useState([
+    {
+      token:token,
+      date:"",
+      game:""
+    }
+  ]);
+  const [data,setData] = useState(null);
+ 
   //to check if it works! yes. yahan pe axios ka get request daalna hai
   useEffect(() => {
-    console.log(selectedDay, event);
+    if(selectedDay){
+      setPostObject({
+        token : token,
+        date: selectedDay.toLocaleDateString("en-us"),
+        game: event
+      })
+    }
+    
   }, [selectedDay, event]);
-
+  useEffect(()=>{
+    console.log(postObject)
+    if(postObject.date&&postObject.game){
+      axios.post(`${BaseURL}/`,postObject)
+        .catch((err)=>{
+          console.log(err);
+        })
+        .then((res)=>{
+          console.log(res.data.data);
+          setData(res.data.data);
+        })
+    }
+  },[postObject])
   // array storing all time slots (24)
-  const [slots, setSlots] = useState([
+  const [slots,setSlots] = useState([
     {
       id: 1,
       timeSlot: "10:00",
@@ -213,44 +245,27 @@ const Booking = () => {
 
   // data is state for backend se jo bhi aata hai
 
-  const data = [
-    {
-      id: 2,
-      timeSlot: "10:30",
-      date: "22 jan,2020",
-      game: "pool",
-      tableNumber: 1,
-    },
-    {
-      id: 5,
-      timeSlot: "12:00",
-      date: "22 jan,2020",
-      game: "pool",
-      tableNumber: 2,
-    },
-    {
-      id: 6,
-      timeSlot: "12:30",
-      date: "22 jan,2020",
-      game: "pool",
-      tableNumber: 1,
-    },
-  ];
+  
   // this updates slots available whenever state from backend changes
   useEffect(() => {
+    console.log("hello",data);
     if (data) {
       slots.map((slot) => {
         data.map((flag) => {
-          if (slot.id === flag.id && flag.tableNumber === 1) {
+          if (slot.timeSlot === flag.time && flag.table === "1") {
+            console.log("if working");
             slot.table1Status = "invisible";
           }
-          if (slot.id === flag.id && flag.tableNumber === 2) {
+          if (slot.timeSlot === flag.time && flag.table === "2") {
             slot.table2Status = "invisible";
           }
         });
       });
     }
   }, [data]);
+  useEffect(()=>{
+    console.log(slots);
+  },[slots])
 
   //time slot jo user choose karega uska state or table ka state & function
   const [timeSlot, setTimeSlot] = useState("");
@@ -258,12 +273,12 @@ const Booking = () => {
   function handleButton1Click(t)
   {
     setTimeSlot(t);
-    setTable("table 1");
+    setTable("1");
   }
   function handleButton2Click(t)
   {
     setTimeSlot(t);
-    setTable("table 2");
+    setTable("2");
   }
 
   function handleSubmitButtonClick()
@@ -288,7 +303,13 @@ const Booking = () => {
         </Row>
       </Container>
       {event && <p>you chose {event}</p>}
-      <p>choose date</p>
+      <p>enter date</p>
+      {/* <input value={selectedDay} onChange={(e)=>{setSelectedDay(e.target.value)}}></input> */}
+      {/* <form onSubmit={(e) => {
+        setSelectedDay(e.target.value)}}>
+        <input value={selectedDay}></input>
+        <button type="submit">confirm date</button>
+      </form> */}
       <div className="d-flex flex-row justify-content-center align-content-center">
         <DayPicker
           mode="single"
@@ -298,19 +319,18 @@ const Booking = () => {
         />
         <div className="bookingComponent">
           <div>
-            {event &&
-              selectedDay &&
+            {data &&
               slots.map((slot) => {
                 return (
                   <div key={slot.id}>
                     {(
                       <div className="d-flex flex-row">
                         <p>{slot.timeSlot}</p>
-                        <button className={slot.table1Status} onClick={() => handleButton1Click(slot.timeSlot)}>
-                          Book Table 1
+                        <button className={slot.table1Status} onClick={() => handleButton1Click(slot.timeSlot)} key={slot.id * 10}>
+                          {slot.table1Status}
                         </button>
-                        <button className={slot.table2Status} onClick={() => handleButton2Click(slot.timeSlot)}>
-                        Book table 2
+                        <button className={slot.table2Status} onClick={() => handleButton2Click(slot.timeSlot)} key={slot.id * 20}>
+                        {slot.table2Status}
                         </button>
                       </div>
                     )}
@@ -320,6 +340,7 @@ const Booking = () => {
           </div>
         </div>
       </div>
+      {/* <Calendar onChange={onChange} value={value} (locale, date) => formatDate(date, 'd')/> */}
       <button type="submit" onClick={handleSubmitButtonClick}>Continue to payment!</button>
     </div>
   );
