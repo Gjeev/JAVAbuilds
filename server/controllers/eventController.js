@@ -5,7 +5,7 @@
 
 // //async function createSession
 
-import { bookings } from "../models/bookingModel.js";
+const bookings = require("../models/eventModel")
 
 // const bcrypt = require('bcrypt');
 
@@ -54,7 +54,7 @@ async function readEvents (req, res) {
 async function getUsersEvent (req, res) {
     try{
         const query = { "enrollnum" : req.body.enrollnum}
-        await event.find(query).then((events) => res.json({ 
+        await bookings.find(query).then((events) => res.json({ 
             message : events
         })).catch((err) => {
             return res.json({

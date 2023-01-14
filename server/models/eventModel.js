@@ -1,7 +1,10 @@
 // user id , game, time , date , table (for pool) , otp
 // also implement multiple booking 
 //import mongoose
-import { Schema , model } from 'mongoose';
+const mongoose = require('mongoose');
+
+//Schema is a constructor function of the object schema of the mongoose object
+const Schema = mongoose.Schema;
 
 //create an instance of the schema object
 const bookingSchema = new Schema({
@@ -38,6 +41,6 @@ const bookingSchema = new Schema({
     }
 }, {timestamps: true});
 
-const bookings = model("booking", bookingSchema);
+const bookings = mongoose.model("bookingSchema", bookingSchema);
 
-export default bookings;
+module.exports= bookings;
