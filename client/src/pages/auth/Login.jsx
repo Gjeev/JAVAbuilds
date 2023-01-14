@@ -24,8 +24,10 @@ const Login = () => {
         })
         .then((res)=>{
             if(res.data.genToken){
+                console.log(res.data)
                 console.log("verified")
                 localStorage.setItem('token',res.data.genToken)
+                localStorage.setItem('enrollnum',res.data.result.enrollnum)
                 console.log(localStorage.getItem('token'));
                 window.location.href= "/"
             }

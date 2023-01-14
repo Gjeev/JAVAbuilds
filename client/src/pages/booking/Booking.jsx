@@ -35,7 +35,7 @@ const Booking = () => {
   // state for game and its handler function
   const [event, setEvent] = useState();
   const [token,setToken]=useState(localStorage.getItem('token'));
-  console.log(token);
+  const [enrollnum,setEnrollnum]=useState(localStorage.getItem('enrollnum'))
   const handleGameSubmit = (title) => {
     setEvent(title);
   };
@@ -248,20 +248,6 @@ const Booking = () => {
 
   
   // this updates slots available whenever state from backend changes
-  useEffect(() => {
-    if (data) {
-      slots.map((slot) => {
-        data.map((flag) => {
-          if (slot.timeSlot === flag.time && flag.table === "1") {
-            slot.table1Status = "invisible";
-          }
-          if (slot.timeSlot === flag.time && flag.table === "2") {
-            slot.table2Status = "invisible";
-          }
-        });
-      });
-    }
-  }, [data]);
   const updateSlots = () => {
     if(data)
     {
@@ -274,14 +260,6 @@ const Booking = () => {
           if (slot.timeSlot === flag.time && flag.table === "2") {
             tempSlot.table2Status = "invisible";
           }
-          // if (slot.timeSlot === flag.time && flag.table === "1") {
-          //   return {...slot, table1Status: "invisible"};
-          // }
-          // if (slot.timeSlot === flag.time && flag.table === "2") {
-          //   return {...slot, table2Status: "invisible"};
-          // }
-          // return slot;
-          
         });
         return tempSlot;
       });
@@ -290,9 +268,6 @@ const Booking = () => {
   
     
   };
-  useEffect(() => {
-    console.log(slots);
-  },[slots]);
 
   //time slot jo user choose karega uska state or table ka state & function
   const [timeSlot, setTimeSlot] = useState("");
@@ -310,12 +285,32 @@ const Booking = () => {
 
   function handleSubmitButtonClick()
   {
+
     const user = useSelector((state) => state.user);
 
     // console.log(timeSlot, table, event , selectedDay);
     // axios.post("http://localhost:3000/user/smthsmth", {
 
     // })
+
+
+    var rand =Math.floor((Math.random() * 10000) + 100000)
+    console.log(timeSlot, table, event , selectedDay.toLocaleDateString("en-us"),enrollnum,rand);
+    axios.post(`${BaseURL}/create`,{
+      enrollnum:enrollnum,
+      date:selectedDay.toLocaleDateString("en-us"),
+      time:timeSlot,
+      game:event,
+      table:table,
+      bookInfo:`${selectedDay.toLocaleDateString("en-us")}+&+${timeSlot}+&+${event}+&+${table}`,
+      code: rand
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+    .then((res)=>{
+      console.log(res)
+    })
 
   }
   return (
