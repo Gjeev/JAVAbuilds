@@ -2,20 +2,17 @@ import { bookings } from "../models/bookingModel.js";
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 // storeItems
-async function makeEvent (req, res) {
+async function makeEvent (dataObj) {
+    let ifCreated=false;
     try{
-    let dataObj = req.body;
     let events = await bookings.create(dataObj);
-    res.json({
-        message : "Event Created",
-        data: events
-    });
+    console.log('Event Created');
+    ifCreated=true;
     }
     catch (err){
-        return res.json({
-            message : err.message
-        });
+        ifCreated=false;
     }
+    return ifCreated;
 }
 
 async function readEvents (req, res) {
@@ -85,6 +82,13 @@ async function createCheckoutSession(req, res){
     });
   
     res.send({url:session.url});
+    let dataObj=req.body;
+    if(session.url==`${YOUR_DOMAIN}/booking/checkout-session`){
+        makeEvent(dataObj);
+    }
+    //if url == success => keep events db as it is
+    // if url == cancel/failure => delete that event document from db
+    // check completed or incompleted
   }
 
 module.exports={
