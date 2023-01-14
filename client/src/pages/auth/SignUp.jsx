@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+
+import axios from "axios";
 // <<<<<<< HEAD
 // import axios from "axios";
 
 // const SignUp = () => {
-//   const baseURL = "http://localhost:3000/user";
+const baseURL = "http://localhost:3000/user";
 
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -37,29 +39,22 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 // <<<<<<< HEAD
-//     if (user.password !== cPassword)
-//       setError("the password and confirm password should be same");
-//     else {
-//         axios
-//         .post(`${baseURL}/signUp`, user)
-//         .then((res) => {
-//           if (res.data.message === "User Signed Up") {
-//             window.location.href = "/login";
-//           } else {
-//             setError(res.data.message);
-//           }
-//         })
-//         .catch((err) => console.log(err));
-// =======
-    console.log(user);
-    setPasswordsNotMatching(false);
-    setUsernameAlreadyExists(false);
-    if (user.password != cPassword) {
-      handlePasswordsNotMatching();
-    } else {
-      dispatch(signup(user, history));
-      dispatch(signup(user, history, handleUsernameAlreadyExists));
-//>>>>>>> 27f5e2d41048da6f8f6d1aff21420a5dde1d57b2
+    if (user.password !== cPassword)
+      setError("the password and confirm password should be same");
+    else {
+        axios
+        .post(`${baseURL}/signUp`, user)
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.token) {
+
+            localStorage.setItem('token' , res.data.token)
+            window.location.href = "/";
+          } else {
+            setError(res.data.message);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
   return (
@@ -107,4 +102,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUp

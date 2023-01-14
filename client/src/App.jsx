@@ -27,6 +27,7 @@ export default function App() {
         </Route>
         
         <Route exact path="/bookings">
+        <NavBar></NavBar>
         <Booking></Booking>
       </Route>
       </Switch>
