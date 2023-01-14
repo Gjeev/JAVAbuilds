@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { DayPicker, useInput } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
-import Slots from "../../components/Slots";
 import { Row, Col, Container } from "react-bootstrap";
 import Game from "../../components/Game";
+import "../../css/Booking.css";
+import Button from 'react-bootstrap/Button';
+import Accordion from "react-bootstrap/Accordion";
 
 const Booking = () => {
   // state for date
@@ -17,10 +19,12 @@ const Booking = () => {
     required: true,
   });
   const footer = selectedDay ? (
-    <p>You selected {format(selectedDay, "PPP")}.</p>
+    <p>You selected {format(selectedDay, "dd-MM-y")}.</p>
   ) : (
     <p>Please pick a day.</p>
   );
+  // let date = format(selectedDay, "dd-MM-y");
+  // console.log(date);
 
   // game array for display game options
   const games = [
@@ -36,7 +40,10 @@ const Booking = () => {
 
   //to check if it works! yes. yahan pe axios ka get request daalna hai
   useEffect(() => {
-    console.log(selectedDay, event);
+    if (selectedDay) {
+      let d = selectedDay.toLocaleDateString("en-US");
+      console.log(d);
+    }
   }, [selectedDay, event]);
 
   // array storing all time slots (24)
@@ -255,72 +262,101 @@ const Booking = () => {
   //time slot jo user choose karega uska state or table ka state & function
   const [timeSlot, setTimeSlot] = useState("");
   const [table, setTable] = useState("");
-  function handleButton1Click(t)
-  {
+  function handleButton1Click(t) {
     setTimeSlot(t);
     setTable("table 1");
   }
-  function handleButton2Click(t)
-  {
+  function handleButton2Click(t) {
     setTimeSlot(t);
     setTable("table 2");
   }
 
-  function handleSubmitButtonClick()
-  {
-    console.log(timeSlot, table, event , selectedDay);
+  function handleSubmitButtonClick() {
+    console.log(timeSlot, table, event, selectedDay);
   }
   return (
-    <div className="d-flex flex-column justify-content-center align-content-center">
-      <p>choose game</p>
-      <Container fluid="sm">
-        <Row>
-          {games.map((game) => (
-            <Col key={game.id}>
-              <Game
-                active={game.title === event}
-                onGameClick={() => handleGameSubmit(game.title)}
-                title={game.title}
-                src={game.src}
+    <div className="d-flex flex-column justify-content-center align-items-center">
+    <Container>
+    <Accordion defaultActiveKey="0" flush>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <h1>Choose your game:</h1>
+          </Accordion.Header>
+          <Accordion.Body>
+            <Container fluid="sm">
+              <Row>
+                {games.map((game) => (
+                  <Col key={game.id}>
+                    <Game
+                      active={game.title === event}
+                      onGameClick={() => handleGameSubmit(game.title)}
+                      title={game.title}
+                      src={game.src}
+                    />
+                  </Col>
+                ))}
+              </Row>
+              {event && <p>you chose {event}</p>}
+            </Container>
+          </Accordion.Body>
+        </Accordion.Item>
+
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>
+            <h1>Choose your date:</h1>
+          </Accordion.Header>
+          <Accordion.Body>
+            <div className="d-flex flex-row justify-content-center align-content-center">
+              <DayPicker
+                mode="single"
+                selected={selectedDay}
+                onSelect={setSelectedDay}
+                footer={footer}
               />
-            </Col>
-          ))}
-        </Row>
-      </Container>
-      {event && <p>you chose {event}</p>}
-      <p>choose date</p>
-      <div className="d-flex flex-row justify-content-center align-content-center">
-        <DayPicker
-          mode="single"
-          selected={selectedDay}
-          onSelect={setSelectedDay}
-          footer={footer}
-        />
-        <div className="bookingComponent">
-          <div>
-            {event &&
-              selectedDay &&
-              slots.map((slot) => {
-                return (
-                  <div key={slot.id}>
-                    {(
-                      <div className="d-flex flex-row">
-                        <p>{slot.timeSlot}</p>
-                        <button className={slot.table1Status} onClick={() => handleButton1Click(slot.timeSlot)}>
-                          Book Table 1
-                        </button>
-                        <button className={slot.table2Status} onClick={() => handleButton2Click(slot.timeSlot)}>
-                        Book table 2
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-      <button type="submit" onClick={handleSubmitButtonClick}>Continue to payment!</button>
+              <div className="bookingComponent">
+                <div>
+                  {event &&
+                    selectedDay &&
+                    slots.map((slot) => {
+                      return (
+                        <div key={slot.id}>
+                          {
+                            <div className="d-flex flex-row">
+                              <p>{slot.timeSlot}</p>
+                              <button
+                                className={slot.table1Status}
+                                onClick={() =>
+                                  handleButton1Click(slot.timeSlot)
+                                }
+                              >
+                                Book Table 1
+                              </button>
+                              <button
+                                className={slot.table2Status}
+                                onClick={() =>
+                                  handleButton2Click(slot.timeSlot)
+                                }
+                              >
+                                Book table 2
+                              </button>
+                            </div>
+                          }
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      
+
+    </Container>
+      <Button variant="success" onClick={handleSubmitButtonClick}>Continue to payment!</Button>
+      {/* <button type="submit" onClick={handleSubmitButtonClick} className="submitButton">
+        Continue to payment!
+      </button> */}
     </div>
   );
 };

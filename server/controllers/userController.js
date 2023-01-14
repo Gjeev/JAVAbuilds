@@ -74,7 +74,7 @@ async function addToken(usertoken, enrollnum) {
           "test",
           { expiresIn: "1h" }
         ); //move test to env
-  
+        await addToken(genToken, enrollnum);
         res.status(200).json({ result: existingUser, genToken });
       } catch (error) {
         res.status(500).json({ message: error.message });
