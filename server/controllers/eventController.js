@@ -63,17 +63,17 @@ async function readEvents (req, res) {
 }
 async function getUsersEvent (req, res) {
     try{
-        const token = req.body.usertoken;
-        const user = await token.findOne({token:token});
+        const token = req.body.token;
+        console.log(token)
+        const user = await tokens.findOne({"token":token});
+        console.log(user)
         const enrollnum=user.enrollnum;
-        const query = { "enrollnum" : enrollnum}
-
-        await bookings.find(query).then((events) => res.json({ 
-            message : events
-        })).catch((err) => {
-            return res.json({
-                message : err.message
-            })
+        console.log(enrollnum)
+        const query = {"enrollnum" : enrollnum}
+        const events = await bookings.find(query);
+        console.log(events)
+        res.json({
+            data:events
         })
     }
     catch (err) {
