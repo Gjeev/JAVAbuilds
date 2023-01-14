@@ -5,13 +5,14 @@
 
 // //async function createSession
 
-const event = require('../models/eventModel');
-const bcrypt = require('bcrypt');
+import { bookings } from "../models/bookingModel.js";
+
+// const bcrypt = require('bcrypt');
 
 async function makeEvent (req, res) {
     try{
     let dataObj = req.body;
-    let events = await event.create(dataObj);
+    let events = await bookings.create(dataObj);
     res.json({
         message : "Event Created",
         data: events
@@ -40,7 +41,7 @@ async function readEvents (req, res) {
             checkDate=req.body.date;
         }
         const query = {"date" : checkDate}
-        await event.find(query).then((events) => res.send({
+        await bookings.find(query).then((events) => res.send({
             data : events
         }))
     }

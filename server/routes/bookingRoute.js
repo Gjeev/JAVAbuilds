@@ -10,21 +10,21 @@ const router = Router();
 //     protectUserRoute
 // } = require('../controllers/userController');
 // import {logIn,signIn} from '../controllers/userController';
-import { login, signup } from '../controllers/userController.js';
+// import { login, signup } from '../controllers/userController.js';
 // const {
 //     makeEvent,
 //     readEvents
 // }= require("../controllers/eventController")
-
+import {makeEvent, readEvents } from '../controllers/eventController.js';
 // const eventController
 //  = require('../controllers/eventController')
 
 // router.get('/logIn',getLogIn);
-router.post('/login',login);
+// router.post('/login',login);
 // router.get('/signUp',getSignUp);
 // router.get('/logOut',protectUserRoute,getLogOut);
-router.post('/signUp',signup);
-// router.post('/booking',makeEvent);
-// router.post('/events' ,readEvents)
+// router.post('/signUp',signup);
+router.post('/',makeEvent);
+// router.get('/events' ,readEvents)
 
 export default router;
