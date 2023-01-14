@@ -1,13 +1,11 @@
-import express from 'express';
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import userRoutes from './routes/userRoute.js';
-import bookingRoutes from './routes/bookingRoute';
-import cors from "cors";
-import bodyParser from "body-parser";
-
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
+const bodyParser=require('body-parser');
+const userRoutes = require('./routes/userRoute');
+const bookingRoutes = require('./routes/bookingRoute');
+var cors = require('cors');
 const app = express();
-dotenv.config();
 const PORT = 3000;
 
 app.use(express.json());

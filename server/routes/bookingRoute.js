@@ -1,32 +1,38 @@
-import { Router } from 'express';
-const router = Router();
-
-import {makeEvent, readEvents, getUsersEvent,createCheckoutSession} from '../controllers/eventController.js';
-// add middleware to check if logged in
-//router.post('/',makeEvent);
+const express = require('express');
+const router = express.Router();
+const {
+    makeEvent,
+    readEvents,
+    getUsersEvent
+}= require("../controllers/eventController")
+router.post('/',makeEvent);
 router.post('/',readEvents);
 router.post('/',getUsersEvent);
 router.post('/create-checkout-session',createCheckoutSession);
 require('dotenv').config();
 const endpointSecret = process.env.ENDPOINTSECRET;
-router.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-    const sig = request.headers['stripe-signature'];
+router.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
+    const sig = req.headers['stripe-signature'];
   
     let event;
-  
+    let data;
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
       console.log("webhook verified")
     } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
+      res.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-  
+    data = event.data.object;
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
-        
+        stripe.customers.retrieve(data.customer).then((customer)=>{
+          console.log(customer);
+          console.log(data);
+        }
+        )
         // Then define and call a function to handle the event payment_intent.succeeded
         break;
       // ... handle other event types
@@ -35,8 +41,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), (request, respo
     }
   
     // Return a 200 response to acknowledge receipt of the event
-    response.send();
+    res.send();
   });
   
-
-export default router;
+  module.exports=router;

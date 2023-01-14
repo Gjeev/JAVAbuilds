@@ -1,9 +1,13 @@
-import { Router } from 'express';
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const {
+    login,signup,logout
+}=require('../controllers/userController')
 
-import { login, signup } from '../controllers/userController.js';
+// router.get('/logIn',getLogIn);
 router.post('/login',login);
-// router.get('/logOut',protectUserRoute,getLogOut);
+// router.get('/signUp',getSignUp);
 router.post('/signUp',signup);
+router.delete('/logout',logout)
 
-export default router;
+module.exports = router;

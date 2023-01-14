@@ -1,4 +1,5 @@
-import { Schema , model } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const bookingSchema = new Schema({
     enrollnum: 
@@ -34,6 +35,6 @@ const bookingSchema = new Schema({
     }
 }, {timestamps: true});
 
-const bookings = model("booking", bookingSchema);
+const bookings = mongoose.model("bookingSchema", bookingSchema);
 
-export default bookings;
+module.exports= bookings;

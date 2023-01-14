@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
-import { validate as _validate } from 'email-validator';
-// const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+//const emailValidator = require('email-validator');
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     enrollnum : {
@@ -19,18 +19,11 @@ const userSchema = new Schema({
         type : String,
         required : true,
         unique: true,
-        validate: function() {
-            return _validate(this.userEmail);
-        }
+        // validate: function() {
+        //     return _validate(this.userEmail);
+        // }
     }
 });
 
-// userSchema.pre('save', async function(){
-//     // this.confirmPassword = undefined;
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(this.password,salt);
-//     this.password=hashedPassword;
-// });
-
-const users = model('users',userSchema);
-export default users;
+const users = mongoose.model('users',userSchema);
+module.exports= users;

@@ -1,4 +1,4 @@
-import { bookings } from "../models/bookingModel.js";
+const bookings = require("../models/eventModel")
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 // storeItems
@@ -43,7 +43,10 @@ async function readEvents (req, res) {
 }
 async function getUsersEvent (req, res) {
     try{
-        const query = { "enrollnum" : req.body.enrollnum}
+        const token = req.body.usertoken;
+        const user = await token.findOne({token:token});
+        const enrollnum=user.enrollnum;
+        const query = { "enrollnum" : enrollnum}
         await bookings.find(query).then((events) => res.json({ 
             message : events
         })).catch((err) => {
@@ -68,7 +71,16 @@ async function getUsersEvent (req, res) {
 const YOUR_DOMAIN='http://localhost:3000'; // change the port -> client
 const PRICE_ID=10;
 async function createCheckoutSession(req, res){
+    const token = req.body.usertoken;
+    const user = await token.findOne({token:token});
+    const enrollnum=user.enrollnum;
+    const customer = await stripe.customers.create({
+        metadata:{
+            userId : enrollnum
+        }
+    })
     const session = await stripe.checkout.sessions.create({
+      customer : customer.userId,
       line_items: [
         {
           price: '{{PRICE_ID}}',
