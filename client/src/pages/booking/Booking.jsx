@@ -248,12 +248,10 @@ const Booking = () => {
   
   // this updates slots available whenever state from backend changes
   useEffect(() => {
-    console.log("hello",data);
     if (data) {
       slots.map((slot) => {
         data.map((flag) => {
           if (slot.timeSlot === flag.time && flag.table === "1") {
-            console.log("if working");
             slot.table1Status = "invisible";
           }
           if (slot.timeSlot === flag.time && flag.table === "2") {
@@ -263,9 +261,37 @@ const Booking = () => {
       });
     }
   }, [data]);
-  useEffect(()=>{
+  const updateSlots = () => {
+    if(data)
+    {
+      const newData = slots.map((slot) => {
+        let tempSlot = slot;
+        data.forEach((flag) => {
+          if (slot.timeSlot === flag.time && flag.table === "1") {
+            tempSlot.table1Status = "invisible";
+          }
+          if (slot.timeSlot === flag.time && flag.table === "2") {
+            tempSlot.table2Status = "invisible";
+          }
+          // if (slot.timeSlot === flag.time && flag.table === "1") {
+          //   return {...slot, table1Status: "invisible"};
+          // }
+          // if (slot.timeSlot === flag.time && flag.table === "2") {
+          //   return {...slot, table2Status: "invisible"};
+          // }
+          // return slot;
+          
+        });
+        return tempSlot;
+      });
+      setSlots(newData);
+    }
+  
+    
+  };
+  useEffect(() => {
     console.log(slots);
-  },[slots])
+  },[slots]);
 
   //time slot jo user choose karega uska state or table ka state & function
   const [timeSlot, setTimeSlot] = useState("");
@@ -318,6 +344,7 @@ const Booking = () => {
           footer={footer}
         />
         <div className="bookingComponent">
+        <button onClick={updateSlots}>to update slots</button>
           <div>
             {data &&
               slots.map((slot) => {
