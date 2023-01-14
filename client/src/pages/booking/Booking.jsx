@@ -3,7 +3,7 @@ import { DayPicker, useInput } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import Slots from "../../components/Slots";
 import { Row, Col, Container } from "react-bootstrap";
-//import Game from "../../components/Game";
+import Game from "../../components/Game";
 
 const Booking = () => {
   const games = [
@@ -71,7 +71,8 @@ const handleGameSubmit = (title) => {
   return (
     <div className="d-flex flex-column justify-content-center align-content-center">
     <p>choose game</p>
-      {/* <Container fluid="sm">
+    <p>choose game</p>
+      <Container fluid="sm">
         <Row>
           {games.map((game) => (
             <Col key={game.id}>
@@ -84,7 +85,7 @@ const handleGameSubmit = (title) => {
             </Col>
           ))}
         </Row>
-      </Container> */}
+      </Container>
       <p>choose date</p>
       <div className="d-flex flex-row justify-content-center align-content-center">
       <DayPicker {...dayPickerProps} footer={footer} />

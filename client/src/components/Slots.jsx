@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BookingSlot from "./BookingSlot";
 
 const Slots = (props) => {
+    console.log(props)
     const [data,setData]=useState(null);
     const [slots1,setSlots1]= useState(
         [

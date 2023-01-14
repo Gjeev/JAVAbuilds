@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const BookingSlot = (props) => {
+    console.log(props)
     const [slot,setSlot]=useState(null)
     useEffect(()=>{
         setSlot(props.props)
