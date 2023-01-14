@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
+import Booking from "./pages/booking/Booking";
 
 export default function App() {
   return (
@@ -34,6 +35,15 @@ export default function App() {
           element={
             <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
               <Login></Login>
+            </div>
+          }
+        ></Route>
+        <Route
+          exact
+          path="/bookings"
+          element={
+            <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
+              <Booking/>
             </div>
           }
         ></Route>
