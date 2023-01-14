@@ -8,7 +8,7 @@ const {
     createCheckoutSession
 }= require("../controllers/eventController")
 router.post('/',makeEvent);
-router.post('/re',readEvents);
+router.post('/',readEvents);
 router.post('/',getUsersEvent);
 router.post('/create-checkout-session',createCheckoutSession);
 require('dotenv').config();
