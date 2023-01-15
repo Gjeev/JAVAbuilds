@@ -84,6 +84,11 @@ Start the client in the client directory
   npm run dev
 ```
 
+## Run Through Replit server
+```
+https://javabuilds.ayushchaudhar19.repl.co/
+```
+
 ## 🔗 Links
 
 [Devfolio](https://devfolio.co/projects/bookio-by-javabuilds-4937)
