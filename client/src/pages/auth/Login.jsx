@@ -29,6 +29,7 @@ const Login = () => {
                 localStorage.setItem('token',res.data.genToken)
                 localStorage.setItem('enrollnum',res.data.result.enrollnum)
                 console.log(localStorage.getItem('token'));
+                console.log(localStorage.getItem('enrollnum'))
                 window.location.href= "/"
             }
             else{

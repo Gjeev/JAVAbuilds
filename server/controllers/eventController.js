@@ -3,37 +3,36 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 // const tokens = require("../models/token")
 // storeItems
-// async function makeEvent (dataObj) {
-//     let ifCreated=false;
-//     try{
-//     let events = await bookings.create(dataObj);
-//     console.log('Event Created');
-//     ifCreated=true;
-//     }
-//     catch (err){
-//         ifCreated=false;
-//     }
-//     return ifCreated;
-// }
-async function makeEvent (req,res) {
-    //let ifCreated=false;
+async function makeEvent (dataObj) {
+    // let ifCreated=false;
     try{
-    const dataObj=req.body;
+    console.log(dataObj);
     let events = await bookings.create(dataObj);
     console.log('Event Created');
-    //ifCreated=true;
-    res.json({
-        data:events
-    })
+    console.log(events);
+    // ifCreated=true;
     }
     catch (err){
-        //ifCreated=false;
-        res.json({
-            message:err.message
-        })
+        console.log(err)
+        // ifCreated=false;
     }
-   // return ifCreated;
+    // return ifCreated;
 }
+// async function makeEvent (req,res) {
+//     try{
+//     const dataObj=req.body;
+//     let events = await bookings.create(dataObj);
+//     console.log('Event Created');
+//     res.json({
+//         data:events
+//     })
+//     }
+//     catch (err){
+//         res.json({
+//             message:err.message
+//         })
+//     }
+// }
 
 async function readEvents (req, res) {
     try {
@@ -45,13 +44,13 @@ async function readEvents (req, res) {
         let currentDate = `${day}-${month}-${year}`;
         let checkDate=req.body.date;
         let checkGame= req.body.game;
-        console.log(typeof(checkGame));
+        //console.log(typeof(checkGame));
         
         const query = {"date" : checkDate, "game":checkGame}
-        console.log(query)
+        //console.log(query)
         const events = await bookings.find(query);
         //const events = await bookings.find()
-        console.log(events)
+        //console.log(events)
         res.json({
             data : events
         });
@@ -64,6 +63,7 @@ async function readEvents (req, res) {
 }
 async function getUsersEvent (req, res) {
     try{
+
         
         // const user = await tokens.findOne({"token":token});
         // console.log(user)
@@ -71,7 +71,7 @@ async function getUsersEvent (req, res) {
         // console.log(enrollnum)
         const query = {"enrollnum" : req.body.enrollnum}
         const events = await bookings.find(query);
-        console.log(events)
+        //console.log(events)
         res.json({
             data:events
         })
@@ -82,54 +82,65 @@ async function getUsersEvent (req, res) {
         });
     }
 }
-// write code for PAY BUTTON = Confirm Payment in frontend
-// onclick -> handleCheckout -> post request -> sync routes with backend
-// -> send user ID(token) in post request, if you are storing user in state
-// make checkoutSuccess page in frontend
-// component bnao and app.js me route path bnao
-// token access from req body, then find enrollnum from token db
-// client url??
-// ===
-// const YOUR_DOMAIN='http://localhost:5173'; // change the port -> client
-// const PRICE_ID=10;
-// async function createCheckoutSession(req, res){
-//     const token = req.body.usertoken;
-//     const user = await token.findOne({token:token});
-//     const enrollnum=user.enrollnum;
-//     const customer = await stripe.customers.create({
-//         metadata:{
-//             userId : enrollnum
-//         }
-//     })
-//     const session = await stripe.checkout.sessions.create({
-//       customer : customer.userId,
-//       line_items: [
-//         {
-//           price: PRICE_ID,
-//           quantity: 1,
-//         },
-//       ],
-//       mode: 'payment',
-//       // define success and cancel urls
-//       success_url: `${YOUR_DOMAIN}/booking/checkout-session`,
-//       cancel_url: `${YOUR_DOMAIN}/booking`,
-//     });
+
+const PRICE_ID=500;
+async function createCheckoutSession(req, res){
+    const enrollnum=req.body.enrollnum;
+    const date= req.body.date;
+    const time = req.body.time;
+    const game = req.body.game;
+    const table= req.body.game;
+    const bookInfo = req.body.bookInfo;
+    const code = req.body.code;
+    // console.log(req.body)
+    // console.log(enrollnum);
+    const customer = await stripe.customers.create({
+        metadata:{
+            enrollnum : enrollnum,
+            date:date,
+            time:time,
+            game:game,
+            table:table,
+            bookInfo:bookInfo,
+            code:code
+        }
+    })
+    
+    const session = await stripe.checkout.sessions.create({
+      customer : customer.id,
+      line_items: [
+        {
+          price_data:{
+            currency:"inr",
+            product_data:{
+                name:"Slot Booking"
+            },
+            unit_amount:PRICE_ID,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      // define success and cancel urls
+      success_url: `${process.env.YOUR_DOMAIN}/booking/checkout-session`,
+      cancel_url: `${process.env.YOUR_DOMAIN}/booking`,
+    });
   
-//     res.send({url:session.url});
-//     let dataObj=req.body;
-//     if(session.url==`${YOUR_DOMAIN}/booking/checkout-session`){
-//         makeEvent(dataObj);
-//     }
-//     //if url == success => keep events db as it is
-//     // if url == cancel/failure => delete that event document from db
-//     // check completed or incompleted
-//   }
+    res.send({url:session.url});
+    let dataObj=req.body;
+    // if(session.url==`${YOUR_DOMAIN}/booking/checkout-session`){
+    //     makeEvent(dataObj);
+    // }
+    //if url == success => keep events db as it is
+    // if url == cancel/failure => delete that event document from db
+    // check completed or incompleted
+  }
 // ===
 module.exports={
     makeEvent,
     readEvents,
     getUsersEvent,
-    //createCheckoutSession
+    createCheckoutSession
 }
 
 

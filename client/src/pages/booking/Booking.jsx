@@ -286,33 +286,28 @@ const Booking = () => {
 
     // })
 
-    var rand = Math.floor(Math.random() * 10000 + 100000);
-    console.log(
-      timeSlot,
-      table,
-      event,
-      selectedDay.toLocaleDateString("en-us"),
-      enrollnum,
-      rand
-    );
-    axios
-      .post(`${BaseURL}/create`, {
-        enrollnum: enrollnum,
-        date: selectedDay.toLocaleDateString("en-us"),
-        time: timeSlot,
-        game: event,
-        table: table,
-        bookInfo: `${selectedDay.toLocaleDateString(
-          "en-us"
-        )}+&+${timeSlot}+&+${event}+&+${table}`,
-        code: rand,
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    var rand =Math.floor((Math.random() * 10000) + 100000)
+    console.log(timeSlot, table, event , selectedDay.toLocaleDateString("en-us"),enrollnum,rand);
+    axios.post(`${BaseURL}/create-checkout-session`,{
+      enrollnum:enrollnum,
+      date:selectedDay.toLocaleDateString("en-us"),
+      time:timeSlot,
+      game:event,
+      table:table,
+      bookInfo:`${selectedDay.toLocaleDateString("en-us")}+&+${timeSlot}+&+${event}+&+${table}`,
+      code: rand
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+    .then((res)=>{
+      console.log(res)
+      if(res.data.url){
+        window.location.href=res.data.url
+      }
+    })
+
+
   }
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
