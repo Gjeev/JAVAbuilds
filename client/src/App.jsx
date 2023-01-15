@@ -21,11 +21,13 @@ export default function App() {
         </Route>
 
         <Route exact path="/signUp">
-          <SignUp></SignUp>
+        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100"><SignUp></SignUp></div>
+          
         </Route>
 
         <Route exact path="/login">
-          <Login></Login>
+        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100"><Login></Login></div>
+          
         </Route>
         
         <Route exact path="/bookings">
