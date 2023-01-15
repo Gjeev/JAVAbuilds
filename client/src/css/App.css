@@ -1,0 +1,15 @@
+.submitButton{
+    width: auto;
+    margin-top: 1em;
+}
+.signUp {
+    padding: 1em;
+}
+.d-flex {
+    padding: 1em;
+}
+.Form{
+    padding: 1em;
+    box-shadow:
+  0 7px 30px -10px rgba(150,170,180,0.5);
+}
