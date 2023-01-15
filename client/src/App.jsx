@@ -32,7 +32,7 @@ export default function App() {
         <Booking></Booking>
       </Route>
 
-      <Route exact path="/user/checkout-session">
+      <Route exact path="/booking/checkout-session">
         <CheckOutOK></CheckOutOK>
       </Route>
 
