@@ -101,7 +101,7 @@ const SignUp = () => {
         <Form.Text className="errorMessage">{error}</Form.Text>
       </Form.Group>
       <Button type="submit" variant="primary" className="submitButton">
-        onto login page
+        continue
       </Button>
     </Form>
   );

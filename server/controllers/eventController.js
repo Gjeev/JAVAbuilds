@@ -1,6 +1,7 @@
 const bookings = require("../models/eventModel")
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_KEY);
+// const tokens = require("../models/token")
 // storeItems
 // async function makeEvent (dataObj) {
 //     let ifCreated=false;
@@ -63,13 +64,12 @@ async function readEvents (req, res) {
 }
 async function getUsersEvent (req, res) {
     try{
-        const token = req.body.token;
-        console.log(token)
-        const user = await tokens.findOne({"token":token});
-        console.log(user)
-        const enrollnum=user.enrollnum;
-        console.log(enrollnum)
-        const query = {"enrollnum" : enrollnum}
+        
+        // const user = await tokens.findOne({"token":token});
+        // console.log(user)
+        // const enrollnum=user.enrollnum;
+        // console.log(enrollnum)
+        const query = {"enrollnum" : req.body.enrollnum}
         const events = await bookings.find(query);
         console.log(events)
         res.json({
